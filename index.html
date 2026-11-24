@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>더샵 검단레이크파크 | 분양 안내 및 관심고객 등록</title>
+
+  <!-- 카카오톡·문자 공유 미리보기(OG) 설정 -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="더샵 검단레이크파크 | 프리미엄 분양 안내 및 관심고객 등록" />
+  <meta property="og:description" content="검단의 중심에서, 더 큰 가치를 누리다. 관심고객 등록 및 우선 안내 혜택을 확인하세요." />
+  <meta property="og:image" content="https://thesharp-geomdan.github.io/hero_hd.jpg" />
+  <meta property="og:url" content="https://thesharp-geomdan.github.io/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="더샵 검단레이크파크 | 프리미엄 분양 안내" />
+  <meta name="twitter:description" content="검단의 중심에서, 더 큰 가치를 누리다." />
+  <meta name="twitter:image" content="https://thesharp-geomdan.github.io/hero_hd.jpg" />
+
+  <script>
+    // 접속 시 항상 맨 위 첫 화면부터 열리도록 설정
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, 0);
+    window.addEventListener("load", function () {
+      window.scrollTo(0, 0);
+    });
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <style>
+    :root {
+      --navy: #0c1b33;
+      --navy-deep: #071121;
+      --gold: #b8924f;
+      --gold-light: #e0c182;
+      --ivory: #f6f4ef;
+      --text: #1c222b;
+      --text-sub: #596475;
+      --line: #e4e1d9;
+      --serif: "Noto Serif KR", Georgia, serif;
+      --sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      color: var(--text);
+      background: #fff;
+      line-height: 1.65;
+      word-break: keep-all;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* 상단 헤더 */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(12, 27, 51, 0.88);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(224, 193, 130, 0.25);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 68px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { color: #fff; display: flex; flex-direction: column; line-height: 1.1; }
+    .logo small { font-size: 10px; letter-spacing: 2.2px; color: var(--gold-light); }
+    .logo strong { font-family: var(--serif); font-size: 18px; margin-top: 2px; }
+    .nav { display: flex; align-items: center; gap: 26px; list-style: none; }
+    .nav a { color: rgba(255, 255, 255, 0.92); font-size: 14.5px; font-weight: 500; }
+    .nav a:hover { color: var(--gold-light); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy-deep) !important;
+      font-weight: 700 !important;
+      padding: 9px 16px;
+      border-radius: 4px;
+      font-size: 13.5px !important;
+    }
+
+    /* 첫 화면 메인 히어로 */
+    .hero {
+      position: relative;
+      min-height: 76vh;
+      margin-top: 68px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: linear-gradient(145deg, #071121 0%, #0f2547 55%, #1c3d6e 100%);
+      color: #fff;
+      overflow: hidden;
+    }
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 45%;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .hero-photo.loaded {
+      opacity: 1;
+    }
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(7, 17, 33, 0) 0%,
+        rgba(7, 17, 33, 0) 46%,
+        rgba(7, 17, 33, 0.52) 74%,
+        rgba(7, 17, 33, 0.86) 100%
+      );
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1040px;
+      padding: 200px 20px 40px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(7, 17, 33, 0.72);
+      border: 1px solid rgba(224, 193, 130, 0.82);
+      color: var(--gold-light);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      padding: 5px 15px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(24px, 4.5vw, 46px);
+      font-weight: 700;
+      line-height: 1.28;
+      letter-spacing: -0.8px;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.75);
+      margin-bottom: 10px;
+    }
+    .hero h1 span { color: var(--gold-light); }
+    .hero-sub {
+      font-size: clamp(13.5px, 1.9vw, 16.5px);
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: rgba(7, 17, 33, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(6px);
+      border-radius: 4px;
+    }
+    .metric { padding: 13px 8px; border-right: 1px solid rgba(255, 255, 255, 0.16); }
+    .metric:last-child { border-right: none; }
+    .metric small { display: block; font-size: 10.5px; color: var(--gold-light); letter-spacing: 1px; margin-bottom: 3px; }
+    .metric strong { font-family: var(--serif); font-size: 16px; }
+
+    /* 공통 섹션 */
+    .section { padding: 84px 20px; }
+    .bg-ivory { background: var(--ivory); }
+    .bg-navy { background: var(--navy); color: #fff; }
+    .container { max-width: 1140px; margin: 0 auto; }
+    .sec-head { text-align: center; margin-bottom: 44px; }
+    .sec-en { display: block; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-bottom: 8px; }
+    .bg-navy .sec-en { color: var(--gold-light); }
+    .sec-title { font-family: var(--serif); font-size: clamp(24px, 3.6vw, 36px); color: var(--navy); line-height: 1.32; margin-bottom: 10px; }
+    .bg-navy .sec-title { color: #fff; }
+    .sec-desc { font-size: 15px; color: var(--text-sub); max-width: 580px; margin: 0 auto; }
+    .bg-navy .sec-desc { color: rgba(255, 255, 255, 0.75); }
+
+    /* 프리미엄 카드 */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .p-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-top: 3px solid var(--navy);
+      padding: 28px 24px;
+    }
+    .p-num { font-family: var(--serif); font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
+    .p-card h3 { font-family: var(--serif); font-size: 19px; color: var(--navy); margin-bottom: 10px; }
+    .p-card p { font-size: 14px; color: var(--text-sub); }
+
+    /* 사업개요 표 */
+    .spec-table { width: 100%; max-width: 880px; margin: 0 auto; border-top: 2px solid var(--navy); border-collapse: collapse; background: #fff; }
+    .spec-table tr { border-bottom: 1px solid var(--line); }
+    .spec-table th { width: 140px; padding: 15px 16px; text-align: left; background: #f8f7f3; color: var(--navy); font-size: 14px; }
+    .spec-table td { padding: 15px 18px; font-size: 14.5px; }
+
+    /* 평면도 탭 */
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy-deep);
+      font-weight: 800;
+      font-size: 15px;
+      padding: 13px 26px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+    .tab-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+    .tab-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 11px 24px;
+      font-size: 14.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tab-btn.active { background: var(--gold); border-color: var(--gold); color: var(--navy-deep); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .unit-card {
+      max-width: 860px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .unit-card h3 { font-family: var(--serif); font-size: 30px; color: var(--gold-light); margin-bottom: 8px; }
+    .unit-card p { font-size: 14.5px; color: rgba(255, 255, 255, 0.82); margin-bottom: 18px; }
+    .unit-specs { list-style: none; border-top: 1px solid rgba(255, 255, 255, 0.15); }
+    .unit-specs li { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.15); font-size: 14px; }
+    .unit-specs span { color: rgba(255, 255, 255, 0.65); }
+
+    /* 상담 신청 문의하기 */
+    .inquiry-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 32px; align-items: start; }
+    .inquiry-side {
+      background: var(--navy);
+      color: #fff;
+      padding: 34px 28px;
+      border-top: 4px solid var(--gold);
+    }
+    .inquiry-side h3 { font-family: var(--serif); font-size: 24px; margin-bottom: 12px; color: var(--gold-light); }
+    .inquiry-side ul { list-style: none; display: grid; gap: 11px; margin: 20px 0 26px; font-size: 14px; }
+    .inquiry-side li::before { content: "✓ "; color: var(--gold-light); font-weight: 700; }
+    .tel-box { background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(224, 193, 130, 0.4); padding: 16px; }
+    .tel-box small { display: block; color: var(--gold-light); font-size: 12px; margin-bottom: 4px; }
+    .tel-box a { font-family: var(--serif); font-size: 24px; font-weight: 700; color: #fff; }
+
+    .form-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 34px 30px;
+      box-shadow: 0 12px 32px rgba(12, 27, 51, 0.06);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 13.5px; font-weight: 700; color: var(--navy); margin-bottom: 7px; }
+    .required { color: #d13030; }
+    .form-box input[type="text"],
+    .form-box input[type="tel"],
+    .form-box select,
+    .form-box textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cfd5df;
+      border-radius: 4px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+    }
+    .form-box input:focus, .form-box select:focus, .form-box textarea:focus { border-color: var(--navy); }
+    .form-box textarea { min-height: 110px; resize: vertical; }
+    .agree-row { display: flex; align-items: center; gap: 8px; font-size: 13.5px; margin-bottom: 20px; cursor: pointer; }
+    .agree-row input { width: 16px; height: 16px; accent-color: var(--navy); }
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--navy);
+      color: var(--gold-light);
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .status-msg { margin-top: 14px; padding: 12px 14px; border-radius: 4px; font-size: 14px; display: none; }
+    .status-msg.success { display: block; background: #edf7f1; color: #0e5a36; border: 1px solid #b4dfc7; }
+    .status-msg.error { display: block; background: #fdf0f0; color: #9e2222; border: 1px solid #f2bcbc; }
+
+    footer {
+      background: var(--navy-deep);
+      color: rgba(255, 255, 255, 0.58);
+      padding: 40px 20px 96px;
+      text-align: center;
+      font-size: 12.5px;
+    }
+
+    /* 모바일 하단 고정 바 */
+    .mobile-bar {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 950;
+      grid-template-columns: 1fr 1.2fr;
+      box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.2);
+    }
+    .mobile-bar a { text-align: center; padding: 15px 10px; font-size: 15px; font-weight: 700; }
+    .m-call { background: var(--navy); color: #fff; }
+    .m-vip { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy-deep); }
+
+    @media (max-width: 860px) {
+      .nav { display: none; }
+      .mobile-bar { display: grid; }
+      .hero { min-height: 390px; }
+      .hero-content { padding: 118px 16px 24px; }
+      .hero-metrics { grid-template-columns: repeat(2, 1fr); }
+      .metric:nth-child(2) { border-right: none; }
+      .metric:nth-child(1), .metric:nth-child(2) { border-bottom: 1px solid rgba(255, 255, 255, 0.16); }
+      .grid-3, .unit-card, .inquiry-grid, .form-row { grid-template-columns: 1fr; }
+      .form-box, .inquiry-side, .unit-card { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="#top" class="logo">
+        <small>THE SHARP GEOMDAN LAKE PARK</small>
+        <strong>더샵 검단레이크파크</strong>
+      </a>
+      <ul class="nav">
+        <li><a href="#premium">프리미엄</a></li>
+        <li><a href="#overview">사업개요</a></li>
+        <li><a href="#units">세대안내</a></li>
+        <li><a href="#inquiry" class="nav-cta">관심고객 등록</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- 첫 화면 메인 비주얼 -->
+  <section class="hero" id="top">
+    <img id="heroPhoto" class="hero-photo" alt="더샵 검단레이크파크 메인 배경 이미지" />
+    <div class="hero-scrim"></div>
+
+    <div class="hero-content">
+      <span class="hero-badge">GRAND OPEN · 사전 방문 예약 접수 중</span>
+      <h1>호수를 품은 공원의 중심,<br /><span>하이엔드 프리미엄</span>의 완성</h1>
+      <p class="hero-sub">지금 관심고객 등록을 남기시면 분양 일정, 잔여 세대 및 방문 우선 혜택을 가장 먼저 안내해 드립니다.</p>
+
+      <div class="hero-metrics">
+        <div class="metric"><small>LOCATION</small><strong>호수공원 도보권</strong></div>
+        <div class="metric"><small>TRAFFIC</small><strong>광역 쾌속 교통망</strong></div>
+        <div class="metric"><small>UNIT TYPE</small><strong>전용 59·74·84㎡</strong></div>
+        <div class="metric"><small>RESERVATION</small><strong>사전예약 혜택</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-ivory" id="premium">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-en">SIGNATURE PREMIUM</span>
+        <h2 class="sec-title">압도적인 6대 프리미엄 가치</h2>
+        <p class="sec-desc">실거주의 쾌적함과 미래 가치를 모두 고려한 입지와 특화 설계를 갖췄습니다.</p>
+      </div>
+      <div class="grid-3">
+        <div class="p-card"><div class="p-num">01</div><h3>호수공원 힐링 숲세권</h3><p>단지 인근 수변공원과 산책로를 내 집 앞마당처럼 누리는 쾌적한 자연환경.</p></div>
+        <div class="p-card"><div class="p-num">02</div><h3>광역 쾌속 교통망</h3><p>지하철 연장 노선 및 주요 간선도로 인접으로 서울·수도권 빠른 접근성.</p></div>
+        <div class="p-card"><div class="p-num">03</div><h3>안심 도보 학세권</h3><p>초·중·고교 및 중심 학원가를 가깝게 이용하는 우수한 교육 인프라.</p></div>
+        <div class="p-card"><div class="p-num">04</div><h3>원스톱 중심 상권</h3><p>대형 마트, 병·의원, 문화·편의시설이 밀집된 편리한 도심 생활권.</p></div>
+        <div class="p-card"><div class="p-num">05</div><h3>4Bay 특화 혁신 설계</h3><p>남향 위주 배치와 드레스룸·팬트리 등 넉넉한 수납공간 극대화 설계.</p></div>
+        <div class="p-card"><div class="p-num">06</div><h3>고품격 커뮤니티</h3><p>피트니스, 실내 골프연습장, 북카페 등 입주민 전용 여가 시설 조성.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="overview">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-en">PROJECT OVERVIEW</span>
+        <h2 class="sec-title">사업 개요</h2>
+        <p class="sec-desc">세부 현장 정보는 원하시는 문구로 언제든 수정하실 수 있습니다.</p>
+      </div>
+      <table class="spec-table">
+        <tr><th>사업명</th><td>더샵 검단레이크파크 공동주택 신축사업</td></tr>
+        <tr><th>대지위치</th><td>수도권 주요 거점 수변공원 인접 특화 구역</td></tr>
+        <tr><th>건축규모</th><td>지하 3층 ~ 지상 최고 29층, 총 10개동</td></tr>
+        <tr><th>공급타입</th><td>전용 59㎡ · 74㎡ · 84㎡ 선호도 높은 중소형 구성</td></tr>
+        <tr><th>상담운영</th><td>10:00 ~ 18:00 (원활한 관람을 위해 사전예약제 운영)</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="section bg-navy" id="units">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-en">UNIT PLAN</span>
+        <h2 class="sec-title">타입별 세대 안내</h2>
+        <p class="sec-desc">원하시는 평형을 눌러 주요 스펙을 확인해 보세요.</p>
+      </div>
+      <div class="tab-bar">
+        <button class="tab-btn active" data-target="u59">59㎡ A</button>
+        <button class="tab-btn" data-target="u74">74㎡ A</button>
+        <button class="tab-btn" data-target="u84">84㎡ A</button>
+      </div>
+      <div class="tab-panel active" id="u59">
+        <div class="unit-card">
+          <div>
+            <h3>59㎡ A</h3>
+            <p>신혼부부 및 2~3인 가구 선호도가 높은 실속 4Bay 판상형 맞통풍 구조입니다.</p>
+            <a href="#inquiry" class="btn-gold" style="display:inline-block;">59㎡ 조건 문의하기</a>
+          </div>
+          <ul class="unit-specs">
+            <li><span>전용면적</span><strong>59.92㎡</strong></li>
+            <li><span>공급면적</span><strong>81.45㎡ (약 24평형)</strong></li>
+            <li><span>공간구성</span><strong>방 3 · 욕실 2 · 드레스룸</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-panel" id="u74">
+        <div class="unit-card">
+          <div>
+            <h3>74㎡ A</h3>
+            <p>합리적인 조건과 중형급 공간감을 모두 잡은 틈새 인기 평형입니다.</p>
+            <a href="#inquiry" class="btn-gold" style="display:inline-block;">74㎡ 조건 문의하기</a>
+          </div>
+          <ul class="unit-specs">
+            <li><span>전용면적</span><strong>74.88㎡</strong></li>
+            <li><span>공급면적</span><strong>99.12㎡ (약 30평형)</strong></li>
+            <li><span>공간구성</span><strong>방 3 · 욕실 2 · 주방 팬트리</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-panel" id="u84">
+        <div class="unit-card">
+          <div>
+            <h3>84㎡ A</h3>
+            <p>가장 높은 선호도를 자랑하는 국민평형 4Bay + 알파룸 특화 설계입니다.</p>
+            <a href="#inquiry" class="btn-gold" style="display:inline-block;">84㎡ 조건 문의하기</a>
+          </div>
+          <ul class="unit-specs">
+            <li><span>전용면적</span><strong>84.95㎡</strong></li>
+            <li><span>공급면적</span><strong>112.30㎡ (약 34평형)</strong></li>
+            <li><span>공간구성</span><strong>방 3 + 알파룸 · 욕실 2 · 이중 팬트리</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 상담 접수 문의하기 -->
+  <section class="section bg-ivory" id="inquiry">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-en">VIP REGISTRATION</span>
+        <h2 class="sec-title">관심고객 등록 및 상담 신청</h2>
+        <p class="sec-desc">아래 정보를 남겨주시면 확인 후 빠르게 안내해 드립니다.</p>
+      </div>
+
+      <div class="inquiry-grid">
+        <div class="inquiry-side">
+          <h3>사전 등록 시 우선 안내 혜택</h3>
+          <p style="font-size:14px; color:rgba(255,255,255,0.8);">분양 일정과 잔여 호실, 모델하우스 방문 예약까지 1:1로 도와드립니다.</p>
+          <ul>
+            <li>분양가 및 주요 조건표 우선 안내</li>
+            <li>모델하우스 대기 없는 사전 방문 예약</li>
+            <li>관심 평형별 잔여 세대 실시간 상담</li>
+          </ul>
+          <div class="tel-box">
+            <small>대표 분양 상담 문의 (10:00 ~ 18:00)</small>
+            <a href="tel:1600-0000">1600-0000</a>
+          </div>
+        </div>
+
+        <div class="form-box">
+          <iframe name="hiddenSubmitFrame" id="hiddenSubmitFrame" style="display:none;" title="전송용 프레임"></iframe>
+          <form id="contactForm" action="https://formsubmit.co/jey0809@bizgrida.co.kr" method="POST" target="hiddenSubmitFrame">
+            <input type="hidden" name="_subject" value="[더샵 검단레이크파크] 관심고객 상담 신청이 접수되었습니다" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">이름 <span class="required">*</span></label>
+                <input type="text" id="name" name="이름" placeholder="성함을 입력해 주세요" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">연락처 <span class="required">*</span></label>
+                <input type="tel" id="phone" name="연락처" placeholder="010-0000-0000" maxlength="13" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="interest">관심 항목</label>
+                <select id="interest" name="관심항목">
+                  <option value="분양 상담 및 안내">분양 상담 및 안내</option>
+                  <option value="모델하우스 방문 예약">모델하우스 방문 예약</option>
+                  <option value="분양가 및 자료 요청">분양가 및 자료 요청</option>
+                  <option value="잔여 세대 문의">잔여 세대 문의</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="unitType">관심 평형</label>
+                <select id="unitType" name="관심평형">
+                  <option value="전용 84㎡">전용 84㎡</option>
+                  <option value="전용 74㎡">전용 74㎡</option>
+                  <option value="전용 59㎡">전용 59㎡</option>
+                  <option value="상담 후 결정">상담 후 결정</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="message">문의내용 <span class="required">*</span></label>
+              <textarea id="message" name="문의내용" placeholder="궁금하신 사항이나 희망 통화 시간대를 적어주세요" required></textarea>
+            </div>
+
+            <label class="agree-row">
+              <input type="checkbox" id="agree" required />
+              <span>상담 접수를 위한 개인정보 수집 및 이용에 동의합니다. <span class="required">(필수)</span></span>
+            </label>
+
+            <button type="submit" id="submitBtn" class="submit-btn">관심고객 등록 · 상담 신청하기</button>
+            <div id="statusMsg" class="status-msg"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>문의 접수 알림 수신: jey0809@bizgrida.co.kr · 본 페이지는 분양 홍보 및 상담 접수용 랜딩페이지입니다.</p>
+  </footer>
+
+  <div class="mobile-bar">
+    <a href="tel:1600-0000" class="m-call">전화 상담</a>
+    <a href="#inquiry" class="m-vip">관심고객 등록</a>
+  </div>
+
+  <script>
+    // 1. 저장소 이미지 자동 로드
+    (async function loadHeroImage() {
+      const heroEl = document.getElementById("heroPhoto");
+      const show = (src) => {
+        heroEl.src = src;
+        heroEl.classList.add("loaded");
+      };
+
+      const candidates = ["hero_hd.jpg", "hero.jpg", "images/hero.jpg"];
+      for (const path of candidates) {
+        const ok = await new Promise((r) => {
+          const img = new Image();
+          img.onload = () => r(path);
+          img.onerror = () => r(null);
+          img.src = path;
+        });
+        if (ok) {
+          show(ok);
+          return;
+        }
+      }
+
+      try {
+        const res = await fetch("https://api.github.com/repos/thesharp-geomdan/thesharp-geomdan.github.io/contents?t=" + Date.now());
+        if (!res.ok) return;
+        const items = await res.json();
+        const isImg = (name) => /\.(jpg|jpeg|png|webp|gif)$/i.test(name);
+        const found = items.find((f) => f.type === "file" && isImg(f.name));
+        if (found) {
+          show("./" + encodeURIComponent(found.name));
+        }
+      } catch (e) {}
+    })();
+
+    // 2. 평면도 탭 전환
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.target).classList.add("active");
+      });
+    });
+
+    // 3. 연락처 자동 하이픈
+    document.getElementById("phone").addEventListener("input", (e) => {
+      let num = e.target.value.replace(/[^0-9]/g, "").slice(0, 11);
+      if (num.length < 4) e.target.value = num;
+      else if (num.length < 8) e.target.value = num.slice(0, 3) + "-" + num.slice(3);
+      else e.target.value = num.slice(0, 3) + "-" + num.slice(3, 7) + "-" + num.slice(7);
+    });
+
+    // 4. 카카오톡·모바일 빠른 직접 전송 처리
+    const form = document.getElementById("contactForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const statusMsg = document.getElementById("statusMsg");
+    const hiddenFrame = document.getElementById("hiddenSubmitFrame");
+    let isSubmitting = false;
+    let fallbackTimer = null;
+
+    function finishSubmit() {
+      if (!isSubmitting) return;
+      isSubmitting = false;
+      clearTimeout(fallbackTimer);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "관심고객 등록 · 상담 신청하기";
+      statusMsg.className = "status-msg success";
+      statusMsg.textContent = "관심고객 등록 및 상담 문의가 정상 접수되었습니다. 확인 후 빠르게 연락드리겠습니다.";
+      form.reset();
+    }
+
+    hiddenFrame.addEventListener("load", finishSubmit);
+
+    form.addEventListener("submit", function (e) {
+      if (!navigator.onLine) {
+        e.preventDefault();
+        statusMsg.className = "status-msg error";
+        statusMsg.textContent = "인터넷 연결을 확인한 뒤 다시 시도해 주세요.";
+        return;
+      }
+      isSubmitting = true;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "전송 중...";
+      statusMsg.className = "status-msg";
+      statusMsg.textContent = "";
+      fallbackTimer = setTimeout(finishSubmit, 3000);
+    });
+  </script>
+</body>
+</html>
